@@ -4,7 +4,6 @@ import styled from "@emotion/styled";
 import "@fontsource/noto-sans-jp";
 import Navbar from "./navbar";
 import Header from "./header";
-import Profile from "./profile";
 
 const OuterContainer = styled.div`
   display: flex;
@@ -125,11 +124,9 @@ export default function Layout({ children }) {
       <OuterContainer>
         <Container>
           <Header />
-          <Profile />
+          {children}
         </Container>
       </OuterContainer>
-
-      {children}
     </main>
   );
 }
