@@ -1,29 +1,37 @@
 import * as React from "react";
+
 import Layout from "../components/layout";
 import Profile from "../components/profile";
 import QuestionBox from "../components/question-box";
 import Paginator from "../components/paginator";
+import Sidebar from "../components/sidebar";
+import ContentContainer from "../components/content-container";
 
 import { graphql } from "gatsby";
 import { navigate } from "gatsby";
 
 const QuestionListTemplate = ({ data, pageContext }) => {
-  console.log(pageContext);
   return (
     <Layout>
-      <Profile />
-      {data.allPaddyJoyJson.edges.map((item, i) => (
-        <QuestionBox key={item.node.id} data={item.node} />
-      ))}
-      <Paginator
-        style={{ margin: "5rem 0" }}
-        currentPage={pageContext.currentPage}
-        lastPage={pageContext.numPages}
-        goToPage={(page) => {
-          console.log(page);
-          navigate(`/questions/${page}`);
-        }}
-      />
+      <ContentContainer>
+        <Profile />
+      </ContentContainer>
+      <ContentContainer rightComponent={<Sidebar />}>
+        <div>
+          {data.allPaddyJoyJson.edges.map((item, i) => (
+            <QuestionBox key={item.node.id} data={item.node} />
+          ))}
+        </div>
+        <Paginator
+          style={{ margin: "5rem 0" }}
+          currentPage={pageContext.currentPage}
+          lastPage={pageContext.numPages}
+          goToPage={(page) => {
+            console.log(page);
+            navigate(`/questions/${page}`);
+          }}
+        />
+      </ContentContainer>
     </Layout>
   );
 };

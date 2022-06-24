@@ -4,25 +4,7 @@ import styled from "@emotion/styled";
 import "@fontsource/noto-sans-jp";
 import Navbar from "./navbar";
 import Header from "./header";
-
-const OuterContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: auto;
-  width: 100%;
-  height: 100%;
-`;
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
-  margin: 0 auto;
-  width: 800px;
-  height: 100%;
-`;
+import ContentContainer from "./content-container";
 
 export default function Layout({ children }) {
   return (
@@ -121,12 +103,10 @@ export default function Layout({ children }) {
 
       <Navbar toggleMenu={() => console.log("menu toggled")}></Navbar>
 
-      <OuterContainer>
-        <Container>
-          <Header />
-          {children}
-        </Container>
-      </OuterContainer>
+      <ContentContainer>
+        <Header />
+      </ContentContainer>
+      {children}
     </main>
   );
 }
