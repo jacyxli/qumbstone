@@ -14,7 +14,7 @@ const QuestionRoot = styled.div`
   border-radius: 5px;
   width: 100%;
   box-sizing: border-box;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 `;
 
 const QuestionHeader = styled.div`
@@ -38,11 +38,13 @@ const QuestionBody = styled.div`
 
 const Question = styled.h4`
   font-weight: bold;
+  margin-top: 1rem;
 `;
 
 const Answer = styled.p`
   font-weight: normal;
   font-size: 1.3rem;
+  margin-top: 1rem;
 `;
 
 const AnswerContainer = styled.div`
@@ -71,6 +73,9 @@ class QuestionBox extends React.Component {
 
   render() {
     const { data } = this.props;
+    const questionBodyList = data.body.split(/\r?\n/);
+    const answerBodyList = data.answer_body.split(/\r?\n/);
+
     return (
       <QuestionRoot>
         <QuestionHeader>
@@ -89,10 +94,18 @@ class QuestionBox extends React.Component {
           </IconButton>
         </QuestionHeader>
         <QuestionBody>
-          <Question>{data.body}</Question>
+          <div>
+            {questionBodyList.map((text, i) => (
+              <Question key={i}>{text}</Question>
+            ))}
+          </div>
           {!this.state.folded && (
             <AnswerContainer>
-              <Answer>{data.answer_body}</Answer>
+              <div>
+                {answerBodyList.map((text, i) => (
+                  <Answer key={i}>{text}</Answer>
+                ))}
+              </div>
               <TimeStamp>
                 {"Posted at " +
                   moment(data.answer_created_at).format("YYYY-MM-DD HH:mm")}
