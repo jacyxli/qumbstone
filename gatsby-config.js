@@ -1,6 +1,16 @@
+require("dotenv").config();
+
 module.exports = {
   siteMetadata: {
     title: `qumbstone`,
+    siteUrl: `https://www.yourdomain.tld`,
+  },
+  siteMetadata: {
+    title: `Qumbstone`,
+    author: {
+      name: `Jacy Li`,
+    },
+    description: `検索可能な質問箱のアーカイブ`,
     siteUrl: `https://www.yourdomain.tld`,
   },
   plugins: [

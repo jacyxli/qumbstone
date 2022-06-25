@@ -3,11 +3,15 @@ import Layout from "../components/layout";
 import Profile from "../components/profile";
 import QuestionBox from "../components/question-box";
 import { graphql } from "gatsby";
+import Search from "../components/search";
+import Seo from "../components/seo";
 
 const IndexPage = ({ data }) => {
   return (
     <Layout>
+      <Seo title="Index Page" />
       <Profile />
+      <Search indexName="paddy_joy" />
       <QuestionBox
         data={{
           answer_likes_count: 24,

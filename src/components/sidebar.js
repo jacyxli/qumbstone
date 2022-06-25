@@ -12,7 +12,7 @@ import IconButton from "@material-ui/core/IconButton";
 
 import { navigate } from "gatsby";
 
-function Button({ icon, label, ...attr }) {
+function Button({ icon, label, onClick, ...attr }) {
   return (
     <div
       css={css`
@@ -31,6 +31,7 @@ function Button({ icon, label, ...attr }) {
           margin: 0 !important;
           padding: 0 !important;
         `}
+        onClick={onClick}
         {...attr}
       >
         {icon}
@@ -77,13 +78,14 @@ class Sidebar extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { handleOpenSearch } = this.props;
 
     return (
       <SidebarRoot>
         <Button
           icon={<Search fontSize="large" style={{ color: "#272727" }} />}
           label="SEARCH"
+          onClick={handleOpenSearch}
         />
         <Button
           icon={<Sort fontSize="large" style={{ color: "#272727" }} />}

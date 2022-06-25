@@ -6,17 +6,29 @@ import QuestionBox from "../components/question-box";
 import Paginator from "../components/paginator";
 import Sidebar from "../components/sidebar";
 import ContentContainer from "../components/content-container";
+import Search from "../components/search";
+import Seo from "../components/seo";
 
 import { graphql } from "gatsby";
 import { navigate } from "gatsby";
 
 const QuestionListTemplate = ({ data, pageContext }) => {
+  const [open, setOpen] = React.useState(true);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   return (
     <Layout>
+      <Seo title="Index Page" />
+
+      <Search indexName="paddy_joy" open={open} handleClose={handleClose} />
+
       <ContentContainer>
         <Profile />
       </ContentContainer>
-      <ContentContainer rightComponent={<Sidebar />}>
+      <ContentContainer
+        rightComponent={<Sidebar handleOpenSearch={handleOpen} />}
+      >
         <div>
           {data.allPaddyJoyJson.edges.map((item, i) => (
             <QuestionBox key={item.node.id} data={item.node} />
