@@ -46,9 +46,10 @@ export default function ContentContainer({
   children,
   leftComponent,
   rightComponent,
+  style,
 }) {
   return (
-    <OuterContainer>
+    <OuterContainer style={style}>
       <LeftContainer>{leftComponent}</LeftContainer>
       <MiddleContainer>{children}</MiddleContainer>
       <RightContainer>{rightComponent}</RightContainer>

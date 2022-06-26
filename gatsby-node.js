@@ -16,6 +16,10 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
               answer_id
               answer_likes_count
               body
+              fields {
+                slug
+              }
+              uuid_hash
             }
           }
         }
@@ -28,6 +32,7 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     return;
   }
 
+  // posts pagination
   const posts = result.data.allPaddyJoyJson.edges;
   const postsPerPage = 10;
   const numPages = Math.ceil(posts.length / postsPerPage);
@@ -40,6 +45,17 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
         skip: i * postsPerPage,
         numPages,
         currentPage: i + 1,
+      },
+    });
+  });
+
+  // singular post
+  posts.forEach((post, i) => {
+    createPage({
+      path: `/question/${post.node.uuid_hash}`,
+      component: path.resolve("./src/templates/question-template.js"),
+      context: {
+        uuid_hash: post.node.uuid_hash,
       },
     });
   });

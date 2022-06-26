@@ -4,30 +4,29 @@ import Profile from "../components/profile";
 import QuestionBox from "../components/question-box";
 import { graphql } from "gatsby";
 import Search from "../components/search";
-import Seo from "../components/seo";
+import QuestionListTemplate from "../templates/question-list-template";
 
 const IndexPage = ({ data }) => {
   return (
-    <Layout>
-      <Seo title="Index Page" />
-      <Profile />
-      <Search indexName="paddy_joy" />
-      <QuestionBox
-        data={{
-          answer_likes_count: 24,
-          body: "親友がアポロ淫棒論（本当は宇宙に行ってない説）を信じ切っているのですが、どうしたらいいでしょうか？",
-          answer_body:
-            "ネタにマジレスですが、映画『アポロ13』では、宇宙飛行士がパーティーで美女に「君にドッキングしたい」と口説くシーンがあります。",
-          answer_created_at: "1/25/2022, 9:51:07 PM",
-        }}
-      />
-    </Layout>
+    <QuestionListTemplate
+      data={data}
+      pageContext={{
+        limit: 10,
+        skip: 0,
+        currentPage: 1,
+        numPages: 299,
+      }}
+    />
   );
 };
 
-export const query = graphql`
-  query PaddyJoyJsonQuery {
-    allPaddyJoyJson {
+export const questionListQuery = graphql`
+  {
+    allPaddyJoyJson(
+      sort: { order: DESC, fields: answer_created_at }
+      limit: 10
+      skip: 0
+    ) {
       edges {
         node {
           id
@@ -36,6 +35,7 @@ export const query = graphql`
           answer_id
           answer_likes_count
           body
+          uuid_hash
         }
       }
     }

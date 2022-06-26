@@ -2,10 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import styled from "@emotion/styled";
+import { css } from "@emotion/react";
+
 import Favorite from "@material-ui/icons/Favorite";
 import UnfoldLess from "@material-ui/icons/UnfoldLess";
 import UnfoldMore from "@material-ui/icons/UnfoldMore";
 import IconButton from "@material-ui/core/IconButton";
+import { navigate } from "gatsby";
 
 import moment from "moment";
 
@@ -62,17 +65,24 @@ const TimeStamp = styled.p`
 class QuestionBox extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { folded: false };
+    this.state = { showQuestionOnly: this.props.showQuestionOnly };
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.showQuestionOnly !== this.props.showQuestionOnly) {
+      this.setState({ showQuestionOnly: this.props.showQuestionOnly });
+    }
   }
 
   toggleFoldButton = () => {
     this.setState({
-      folded: !this.state.folded,
+      showQuestionOnly: !this.state.showQuestionOnly,
     });
   };
 
   render() {
-    const { data } = this.props;
+    const { data, showFullQuestion } = this.props;
+
     const questionBodyList = data.body.split(/\r?\n/);
     const answerBodyList = data.answer_body.split(/\r?\n/);
 
@@ -85,27 +95,76 @@ class QuestionBox extends React.Component {
           />
           <h4>{data.answer_likes_count}</h4>
           <span css={{ flex: 1 }}></span>
-          <IconButton onClick={this.toggleFoldButton} style={{ padding: "0" }}>
-            {this.state.folded ? (
-              <UnfoldMore style={{ color: "#FFFFFF" }} fontSize="large" />
-            ) : (
-              <UnfoldLess style={{ color: "#FFFFFF" }} fontSize="large" />
-            )}
-          </IconButton>
+          {!showFullQuestion && (
+            <IconButton
+              onClick={this.toggleFoldButton}
+              style={{ padding: "0" }}
+            >
+              {this.state.showQuestionOnly ? (
+                <UnfoldMore style={{ color: "#FFFFFF" }} fontSize="large" />
+              ) : (
+                <UnfoldLess style={{ color: "#FFFFFF" }} fontSize="large" />
+              )}
+            </IconButton>
+          )}
         </QuestionHeader>
-        <QuestionBody>
-          <div>
+        <QuestionBody
+          css={
+            !showFullQuestion
+              ? css`
+                  cursor: pointer;
+
+                  &:hover {
+                    color: #676767;
+                  }
+                `
+              : ``
+          }
+          onClick={
+            !showFullQuestion
+              ? () => navigate(`/question/${data.uuid_hash}`)
+              : undefined
+          }
+        >
+          <div
+            css={
+              !showFullQuestion
+                ? css`
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 3; /* number of lines to show */
+                    line-clamp: 3;
+                    -webkit-box-orient: vertical;
+                  `
+                : ``
+            }
+          >
             {questionBodyList.map((text, i) => (
               <Question key={i}>{text}</Question>
             ))}
           </div>
-          {!this.state.folded && (
+          {!this.state.showQuestionOnly && (
             <AnswerContainer>
-              <div>
+              <div
+                css={
+                  !showFullQuestion
+                    ? css`
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        display: -webkit-box;
+                        -webkit-line-clamp: 3; /* number of lines to show */
+                        line-clamp: 3;
+                        -webkit-box-orient: vertical;
+                      `
+                    : ``
+                }
+              >
                 {answerBodyList.map((text, i) => (
                   <Answer key={i}>{text}</Answer>
                 ))}
               </div>
+
               <TimeStamp>
                 {"Posted at " +
                   moment(data.answer_created_at).format("YYYY-MM-DD HH:mm")}

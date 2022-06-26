@@ -4,10 +4,6 @@ import PropTypes from "prop-types";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 
-import Search from "@material-ui/icons/Search";
-import Sort from "@material-ui/icons/Sort";
-import UnfoldLess from "@material-ui/icons/UnfoldLess";
-
 import IconButton from "@material-ui/core/IconButton";
 
 import { navigate } from "gatsby";
@@ -78,30 +74,26 @@ class Sidebar extends React.Component {
   };
 
   render() {
-    const { handleOpenSearch } = this.props;
+    const { funcs } = this.props;
+    console.log(funcs);
 
     return (
       <SidebarRoot>
-        <Button
-          icon={<Search fontSize="large" style={{ color: "#272727" }} />}
-          label="SEARCH"
-          onClick={handleOpenSearch}
-        />
-        <Button
-          icon={<Sort fontSize="large" style={{ color: "#272727" }} />}
-          label="SORT"
-        />
-        <Button
-          icon={<UnfoldLess fontSize="large" style={{ color: "#272727" }} />}
-          label="SHOW QUESTIONS ONLY"
-        />
+        {funcs.map((func, i) => (
+          <Button
+            key={i}
+            icon={func.icon}
+            label={func.label}
+            onClick={func.func}
+          />
+        ))}
       </SidebarRoot>
     );
   }
 }
 
 Sidebar.propTypes = {
-  data: PropTypes.object.isRequired,
+  funcs: PropTypes.array.isRequired,
 };
 
 export default Sidebar;
