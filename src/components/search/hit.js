@@ -1,23 +1,10 @@
 import React from "react";
-import styled from "@emotion/styled";
-import { Highlight } from "react-instantsearch-hooks-web";
-import { navigate } from "gatsby";
+import QuestionBox from "../question-box";
 
-const Question = styled.h5`
-  font-weight: 600;
-  margin-bottom: 0.6rem;
-`;
-
-export default function Hit({ hit }) {
-  console.log(hit);
+export default function Hit({ hit, showQuestionOnly }) {
   return (
-    <article onClick={() => navigate(`/question/${hit.peing_id}`)}>
-      <Question>
-        <Highlight hit={hit} attribute="question" />
-      </Question>
-      <p>
-        <Highlight attribute="answer" hit={hit} />
-      </p>
+    <article>
+      <QuestionBox showQuestionOnly={showQuestionOnly} data={hit}></QuestionBox>
     </article>
   );
 }

@@ -1,53 +1,16 @@
 import React from "react";
-import PropTypes from "prop-types";
-
 import styled from "@emotion/styled";
-import { css } from "@emotion/react";
-
-import IconButton from "@material-ui/core/IconButton";
-
 import { navigate } from "gatsby";
 
-function Button({ icon, label, onClick, ...attr }) {
-  return (
-    <div
-      css={css`
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        margin-bottom: 0.5rem;
-      `}
-    >
-      <IconButton
-        css={css`
-          height: 3.6rem;
-          width: 3.6rem;
-          min-width: unset;
-          min-height: unset;
-          margin: 0 !important;
-          padding: 0 !important;
-        `}
-        onClick={onClick}
-        {...attr}
-      >
-        {icon}
-      </IconButton>
-      <label
-        css={css`
-          display: block;
-          font-size: 1.5rem;
-          font-weight: 200;
-          margin-left: 1rem;
-          @media only screen and (min-width: 1024px) and (max-width: 1280px) {
-            display: none;
-          }
-        `}
-      >
-        {label}
-      </label>
-    </div>
-  );
-}
+import SearchIcon from "@material-ui/icons/Search";
+import UnfoldLess from "@material-ui/icons/UnfoldLess";
+import UnfoldMore from "@material-ui/icons/UnfoldMore";
+import Home from "@material-ui/icons/Home";
+import KeyboardReturn from "@material-ui/icons/KeyboardReturn";
+
+import SortBy from "./search/sort-by";
+
+import SidebarButton from "./sidebar-button";
 
 const SidebarRoot = styled.div`
   margin-left: 2rem;
@@ -60,47 +23,100 @@ const SidebarRoot = styled.div`
   }
 `;
 
-class Sidebar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { keyword: "" };
-  }
+export default function Sidebar({
+  displaySearch = false,
+  displaySort = false,
+  displayFold = false,
+  displayHome = false,
+  displayReturn = false,
+  showQuestionOnly,
+  handleToggleShowQuestionOnly,
+}) {
+  const iconColor = "#272727";
+  const iconSize = "large";
+  return (
+    <SidebarRoot>
+      {displaySearch && (
+        <SidebarButton
+          icon={<SearchIcon fontSize={iconSize} style={{ color: iconColor }} />}
+          label="SEARCH"
+          label_jp="検索"
+          onClick={() => {
+            console.log("click");
+          }}
+        />
+      )}
+      {displaySort && (
+        <SortBy
+          items={[
+            {
+              label: "デフォルト",
+              value: "paddy_joy",
+            },
+            {
+              label: "新しい順",
+              value: "paddy_joy_sort_date_desc",
+            },
+            {
+              label: "人気順",
+              value: "paddy_joy_sort_like_count_desc",
+            },
+          ]}
+        />
+      )}
+      {(() => {
+        if (displayFold) {
+          if (showQuestionOnly) {
+            return (
+              <SidebarButton
+                icon={
+                  <UnfoldMore
+                    fontSize={iconSize}
+                    style={{ color: iconColor }}
+                  />
+                }
+                label="SHOW ANSWERS"
+                label_jp="回答を表示する"
+                onClick={handleToggleShowQuestionOnly}
+              />
+            );
+          } else {
+            return (
+              <SidebarButton
+                icon={
+                  <UnfoldLess
+                    fontSize={iconSize}
+                    style={{ color: iconColor }}
+                  />
+                }
+                label="SHOW QUESTIONS ONLY"
+                label_jp="質問のみを見る"
+                onClick={handleToggleShowQuestionOnly}
+              />
+            );
+          }
+        }
+      })()}
 
-  handleChange = (e) => {
-    this.setState({
-      keyword: e.target.value,
-    });
-  };
+      {displayHome && (
+        <SidebarButton
+          icon={<Home fontSize={iconSize} style={{ color: iconColor }} />}
+          label="HOME"
+          label_jp="トップページへ"
+          onClick={() => navigate("/")}
+        />
+      )}
 
-  handleEnterKeyPressed = (e) => {
-    if (e.keyCode === 13) {
-      if (this.state.keyword) {
-        navigate(`search?keyword=${this.state.keyword}`);
-      }
-    }
-  };
-
-  render() {
-    const { funcs } = this.props;
-    console.log(funcs);
-
-    return (
-      <SidebarRoot>
-        {funcs.map((func, i) => (
-          <Button
-            key={i}
-            icon={func.icon}
-            label={func.label}
-            onClick={func.func}
-          />
-        ))}
-      </SidebarRoot>
-    );
-  }
+      {displayReturn && (
+        <SidebarButton
+          icon={
+            <KeyboardReturn fontSize={iconSize} style={{ color: iconColor }} />
+          }
+          label="GO BACK"
+          label_jp="戻る"
+          onClick={() => navigate(-1)}
+        />
+      )}
+    </SidebarRoot>
+  );
 }
-
-Sidebar.propTypes = {
-  funcs: PropTypes.array.isRequired,
-};
-
-export default Sidebar;

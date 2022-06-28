@@ -7,12 +7,6 @@ import ContentContainer from "../components/content-container";
 import Sidebar from "../components/sidebar";
 import Search from "../components/search";
 
-import SearchIcon from "@material-ui/icons/Search";
-import Home from "@material-ui/icons/Home";
-import KeyboardReturn from "@material-ui/icons/KeyboardReturn";
-
-import { navigate } from "gatsby";
-
 const AboutRoot = styled.div`
   margin: 0;
   @media only screen and (max-width: 1024px) {
@@ -42,37 +36,7 @@ const AboutPage = (props) => {
       </ContentContainer>
 
       <ContentContainer
-        rightComponent={
-          <Sidebar
-            funcs={[
-              {
-                icon: (
-                  <KeyboardReturn
-                    fontSize="large"
-                    style={{ color: "#272727" }}
-                  />
-                ),
-                label: "GO BACK",
-                label_jp: "戻る",
-                func: () => navigate(-1),
-              },
-              {
-                icon: <Home fontSize="large" style={{ color: "#272727" }} />,
-                label: "HOME",
-                label_jp: "トップページへ戻る",
-                func: () => navigate("/"),
-              },
-              {
-                icon: (
-                  <SearchIcon fontSize="large" style={{ color: "#272727" }} />
-                ),
-                label: "SEARCH",
-                label_jp: "検索",
-                func: handleOpen,
-              },
-            ]}
-          />
-        }
+        rightComponent={<Sidebar displayReturn={true} displayHome={true} />}
       >
         <AboutRoot>
           <Text>

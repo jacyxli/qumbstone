@@ -1,4 +1,4 @@
-import { createRef, default as React, useState, useMemo } from "react";
+import { default as React, useMemo } from "react";
 import styled from "@emotion/styled";
 import algoliasearch from "algoliasearch/lite";
 import { css } from "@emotion/react";

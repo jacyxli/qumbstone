@@ -1,45 +1,107 @@
-import * as React from "react";
-import Layout from "../components/layout";
-import Profile from "../components/profile";
-import QuestionBox from "../components/question-box";
-import { graphql } from "gatsby";
-import Search from "../components/search";
-import QuestionListTemplate from "../templates/question-list-template";
+import { default as React, useMemo } from "react";
+import styled from "@emotion/styled";
+import { css } from "@emotion/react";
 
-const IndexPage = ({ data }) => {
+import Layout from "../components/layout";
+import Seo from "../components/seo";
+import ContentContainer from "../components/content-container";
+import Hit from "../components/search/hit";
+import Profile from "../components/profile";
+import Sidebar from "../components/sidebar";
+import SortBy from "../components/search/sort-by";
+
+import SearchIcon from "@material-ui/icons/Search";
+import Sort from "@material-ui/icons/Sort";
+import UnfoldLess from "@material-ui/icons/UnfoldLess";
+import UnfoldMore from "@material-ui/icons/UnfoldMore";
+
+import algoliasearch from "algoliasearch/lite";
+
+import {
+  Configure,
+  Hits,
+  InstantSearch,
+  Pagination,
+} from "react-instantsearch-hooks-web";
+
+const SearchPanel = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  position: relative;
+`;
+const SearchPanelFilters = styled.div`
+  display: flex;
+`;
+const SearchPanelResults = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 100%;
+`;
+
+const IndexPage = (props) => {
+  const [showQuestionOnly, setShowQuestionOnly] = React.useState(false);
+  const handleToggleShowQuestionOnly = () =>
+    setShowQuestionOnly(!showQuestionOnly);
+
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const searchClient = useMemo(
+    () =>
+      algoliasearch(
+        process.env.GATSBY_ALGOLIA_APP_ID,
+        process.env.GATSBY_ALGOLIA_SEARCH_KEY
+      ),
+    []
+  );
+
   return (
-    <QuestionListTemplate
-      data={data}
-      pageContext={{
-        limit: 10,
-        skip: 0,
-        currentPage: 1,
-        numPages: 299,
-      }}
-    />
+    <Layout>
+      <Seo title="Index Page" />
+
+      <ContentContainer>
+        <Profile />
+      </ContentContainer>
+      <InstantSearch
+        searchClient={searchClient}
+        indexName={process.env.GATSBY_ALGOLIA_INDEX_NAME}
+      >
+        <ContentContainer
+          rightComponent={
+            <Sidebar
+              displaySearch={true}
+              displaySort={true}
+              displayFold={true}
+              showQuestionOnly={showQuestionOnly}
+              handleToggleShowQuestionOnly={handleToggleShowQuestionOnly}
+            />
+          }
+        >
+          <Configure hitsPerPage={8} />
+          <SearchPanel>
+            <SearchPanelResults>
+              <Hits
+                hitComponent={({ hit }) => (
+                  <Hit hit={hit} showQuestionOnly={showQuestionOnly} />
+                )}
+              />
+              <div
+                css={css`
+                  margin: 2rem auto;
+                  text-align: center;
+                `}
+              >
+                <Pagination />
+              </div>
+            </SearchPanelResults>
+          </SearchPanel>
+        </ContentContainer>
+      </InstantSearch>
+    </Layout>
   );
 };
-
-export const questionListQuery = graphql`
-  {
-    allPaddyJoyJson(
-      sort: { order: DESC, fields: answer_created_at }
-      limit: 10
-      skip: 0
-    ) {
-      edges {
-        node {
-          id
-          answer_body
-          answer_created_at
-          answer_id
-          answer_likes_count
-          body
-          uuid_hash
-        }
-      }
-    }
-  }
-`;
 
 export default IndexPage;
