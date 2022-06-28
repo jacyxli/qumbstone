@@ -18,6 +18,7 @@ const PaginatorRoot = styled.div`
   box-sizing: border-box;
   width: 100%;
   color: #272727;
+  padding: 0 2rem;
 `;
 
 const Pages = styled.ul`
@@ -58,6 +59,11 @@ function PageButton({ goToPage, children, isCurrentPage = false }) {
           text-decoration: ${isCurrentPage
             ? "underline !important"
             : "none !important"};
+
+          @media only screen and (max-width: 480px) {
+            margin: 0 0.5rem !important;
+            padding: 0.3rem 1rem !important;
+          }
         `}
         onClick={goToPage}
       >
@@ -77,6 +83,12 @@ function IconBtn({ children, ...attr }) {
         min-height: unset;
         margin: 0 1rem !important;
         padding: 0 !important;
+
+        @media only screen and (max-width: 480px) {
+          margin: 0 0.5rem !important;
+          height: 2rem;
+          width: 2rem;
+        }
       `}
       {...attr}
     >

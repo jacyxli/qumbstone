@@ -34,9 +34,13 @@ function Button({ icon, label, onClick, ...attr }) {
       </IconButton>
       <label
         css={css`
+          display: block;
           font-size: 1.5rem;
           font-weight: 200;
           margin-left: 1rem;
+          @media only screen and (min-width: 1024px) and (max-width: 1280px) {
+            display: none;
+          }
         `}
       >
         {label}
@@ -51,6 +55,9 @@ const SidebarRoot = styled.div`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  @media only screen and (max-width: 1024px) {
+    display: none;
+  }
 `;
 
 class Sidebar extends React.Component {

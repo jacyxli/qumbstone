@@ -7,9 +7,11 @@ const OuterContainer = styled.div`
   margin: auto;
   width: 100%;
   height: 100%;
+  box-sizing: border-box;
 `;
 
 const LeftContainer = styled.div`
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -18,9 +20,20 @@ const LeftContainer = styled.div`
   width: 300px;
   min-width: 300px;
   height: 100%;
+
+  @media only screen and (min-width: 1024px) and (max-width: 1280px) {
+    width: 200px;
+    min-width: unset;
+  }
+
+  @media only screen and (max-width: 1024px) {
+    width: 0px;
+    min-width: unset;
+  }
 `;
 
 const MiddleContainer = styled.div`
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -29,9 +42,26 @@ const MiddleContainer = styled.div`
   width: calc(100% - 600px);
   max-width: 800px;
   height: 100%;
+  padding: 0;
+
+  @media only screen and (min-width: 1024px) and (max-width: 1280px) {
+    width: calc(100% - 400px);
+  }
+
+  @media only screen and (min-width: 481px) and (max-width: 1024px) {
+    width: 100%;
+    padding: 0 20px;
+  }
+
+  @media only screen and (max-width: 480px) {
+    width: 100%;
+    padding: 0 10px;
+    max-width: unset;
+  }
 `;
 
 const RightContainer = styled.div`
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -40,6 +70,16 @@ const RightContainer = styled.div`
   width: 300px;
   min-width: 300px;
   height: 100%;
+
+  @media only screen and (min-width: 1024px) and (max-width: 1280px) {
+    width: 200px;
+    min-width: unset;
+  }
+
+  @media only screen and (max-width: 1024px) {
+    width: 0px;
+    min-width: unset;
+  }
 `;
 
 export default function ContentContainer({

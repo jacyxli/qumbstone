@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
+import { css } from "@emotion/react";
+
 import { Link } from "gatsby";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/icons/Menu";
@@ -29,7 +31,39 @@ const NavToggle = styled.li`
   }
 `;
 
+const NavToggleMenuContainer = styled.ul`
+  background: white;
+  width: 98%;
+  position: absolute;
+  left: 0;
+  box-sizing: border-box;
+  overflow: hidden;
+  margin: 1%;
+  z-index: 1;
+  box-shadow: #eaeaea 0px 4px 15px;
+  & a {
+    text-decoration: none !important;
+  }
+
+  & li {
+    padding: 1.2rem 2rem;
+    border-bottom: 1px solid #f1f1f1;
+    cursor: pointer;
+
+    &:hover {
+      background: #f1f1f1;
+    }
+  }
+
+  & li:last-child {
+    border-bottom: none;
+  }
+`;
+
 export default function Navbar(props) {
+  const [open, setOpen] = React.useState(false);
+  const handleToggleMenu = () => setOpen(!open);
+
   return (
     <Header>
       <Link
@@ -70,7 +104,7 @@ export default function Navbar(props) {
             <Link to="/contact-us">CONTACT US</Link>
           </NavMenuItem>
           <NavToggle>
-            <IconButton onClick={props.toggleMenu}>
+            <IconButton onClick={handleToggleMenu}>
               <Menu
                 style={{
                   width: "1.6em",
@@ -78,6 +112,21 @@ export default function Navbar(props) {
                 }}
               />
             </IconButton>
+            <NavToggleMenuContainer
+              css={css`
+                border: ${open ? "0px solid #eaeaea" : "0px solid transparent"};
+                max-height: ${open ? "300px" : 0};
+                transition: max-height 1s linear, border 1s linear;
+              `}
+            >
+              <Link to="/about">
+                <li>質問墓とは</li>
+              </Link>
+
+              <Link to="/contact-us">
+                <li>CONTACT US</li>
+              </Link>
+            </NavToggleMenuContainer>
           </NavToggle>
         </ul>
       </nav>
