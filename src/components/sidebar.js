@@ -2,18 +2,18 @@ import React from "react";
 import styled from "@emotion/styled";
 import { navigate } from "gatsby";
 
-import SearchIcon from "@material-ui/icons/Search";
 import UnfoldLess from "@material-ui/icons/UnfoldLess";
 import UnfoldMore from "@material-ui/icons/UnfoldMore";
 import Home from "@material-ui/icons/Home";
 import KeyboardReturn from "@material-ui/icons/KeyboardReturn";
 
 import SortBy from "./search/sort-by";
+import SearchBox from "./search/search-box";
 
 import SidebarButton from "./sidebar-button";
 
 const SidebarRoot = styled.div`
-  margin-left: 2rem;
+  padding: 0 2rem;
   width: 100%;
   box-sizing: border-box;
   display: flex;
@@ -36,16 +36,7 @@ export default function Sidebar({
   const iconSize = "large";
   return (
     <SidebarRoot>
-      {displaySearch && (
-        <SidebarButton
-          icon={<SearchIcon fontSize={iconSize} style={{ color: iconColor }} />}
-          label="SEARCH"
-          label_jp="検索"
-          onClick={() => {
-            console.log("click");
-          }}
-        />
-      )}
+      {displaySearch && <SearchBox />}
       {displaySort && (
         <SortBy
           items={[

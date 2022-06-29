@@ -6,27 +6,10 @@ import Sort from "@material-ui/icons/Sort";
 import Popper from "@material-ui/core/Popper";
 import Fade from "@material-ui/core/Fade";
 
+import useClickOutside from "./use-click-outside";
 import SidebarButton from "../sidebar-button";
-
-const Label = styled.label`
-  display: block;
-  font-size: 1.5rem;
-  font-weight: 200;
-  margin-left: 1rem;
-  @media only screen and (min-width: 1024px) and (max-width: 1280px) {
-    display: none;
-  }
-`;
-
-const CurrentRefinement = styled.span`
-  font-size: 1.5rem;
-  font-weight: 200;
-  margin-left: 0.2rem;
-  color: #717171;
-  @media only screen and (min-width: 1024px) and (max-width: 1280px) {
-    display: none;
-  }
-`;
+import StyledLabel from "../styled-label";
+import StyledCurrentRefinement from "../styled-current-refinement";
 
 const Menu = styled.ul`
   background: white;
@@ -38,12 +21,22 @@ const Menu = styled.ul`
   min-width: 10rem;
 
   & li {
-    padding: 1.2rem 2rem;
     border-bottom: 1px solid #f1f1f1;
-    cursor: pointer;
 
-    &:hover {
-      background: #f1f1f1;
+    & button {
+      background: none;
+      color: inherit;
+      border: none;
+      font: inherit;
+      cursor: pointer;
+      outline: inherit;
+      width: 100%;
+      padding: 1.2rem 2rem;
+      cursor: pointer;
+
+      &:hover {
+        background: #f1f1f1;
+      }
     }
   }
 
@@ -53,6 +46,8 @@ const Menu = styled.ul`
 `;
 
 export default function SortBy(props) {
+  const rootRef = React.createRef();
+
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [open, setOpen] = React.useState(false);
   const [placement, setPlacement] = React.useState("bottom-start");
@@ -68,37 +63,47 @@ export default function SortBy(props) {
     setPlacement(newPlacement);
   };
 
+  useClickOutside(rootRef, () => setOpen(false));
+
   return (
-    <SidebarButton
-      icon={<Sort fontSize="large" style={{ color: "#272727" }} />}
-      label={
-        <Label>
-          SORT BY - <CurrentRefinement>{label}</CurrentRefinement>
-        </Label>
-      }
-      onClick={handleClick("bottom-start")}
-    >
-      <Popper open={open} anchorEl={anchorEl} placement={placement} transition>
-        {({ TransitionProps }) => (
-          <Fade {...TransitionProps} timeout={350}>
-            <Menu>
-              {options.map((option, i) => (
-                <li
-                  key={i}
-                  onClick={() => {
-                    if (option.value !== currentRefinement) {
-                      refine(option.value);
-                    }
-                    setOpen(false);
-                  }}
-                >
-                  {option.label}
-                </li>
-              ))}
-            </Menu>
-          </Fade>
-        )}
-      </Popper>
-    </SidebarButton>
+    <div ref={rootRef}>
+      <SidebarButton
+        icon={<Sort fontSize="large" style={{ color: "#272727" }} />}
+        label={
+          <StyledLabel>
+            SORT BY - <StyledCurrentRefinement>{label}</StyledCurrentRefinement>
+          </StyledLabel>
+        }
+        onClick={handleClick("bottom-start")}
+      >
+        <Popper
+          open={open}
+          anchorEl={anchorEl}
+          placement={placement}
+          transition
+        >
+          {({ TransitionProps }) => (
+            <Fade {...TransitionProps} timeout={350}>
+              <Menu>
+                {options.map((option, i) => (
+                  <li key={i}>
+                    <button
+                      onClick={() => {
+                        if (option.value !== currentRefinement) {
+                          refine(option.value);
+                        }
+                        setOpen(false);
+                      }}
+                    >
+                      {option.label}
+                    </button>
+                  </li>
+                ))}
+              </Menu>
+            </Fade>
+          )}
+        </Popper>
+      </SidebarButton>
+    </div>
   );
 }

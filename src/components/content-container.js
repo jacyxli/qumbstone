@@ -23,7 +23,7 @@ const LeftContainer = styled.div`
 
   @media only screen and (min-width: 1024px) and (max-width: 1280px) {
     width: 200px;
-    min-width: unset;
+    min-width: 200px;
   }
 
   @media only screen and (max-width: 1024px) {
@@ -73,7 +73,7 @@ const RightContainer = styled.div`
 
   @media only screen and (min-width: 1024px) and (max-width: 1280px) {
     width: 200px;
-    min-width: unset;
+    min-width: 200px;
   }
 
   @media only screen and (max-width: 1024px) {

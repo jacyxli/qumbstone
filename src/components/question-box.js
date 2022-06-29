@@ -83,8 +83,14 @@ class QuestionBox extends React.Component {
   render() {
     const { data, showFullQuestion } = this.props;
 
-    const questionBodyList = data.body.split(/\r?\n/);
-    const answerBodyList = data.answer_body.split(/\r?\n/);
+    let questionBodyList, answerBodyList;
+    if (data._highlightResult) {
+      questionBodyList = data._highlightResult.body.value.split(/\r?\n/);
+      answerBodyList = data._highlightResult.answer_body.value.split(/\r?\n/);
+    } else {
+      questionBodyList = data.body.split(/\r?\n/);
+      answerBodyList = data.answer_body.split(/\r?\n/);
+    }
 
     return (
       <QuestionRoot>
@@ -141,7 +147,10 @@ class QuestionBox extends React.Component {
             }
           >
             {questionBodyList.map((text, i) => (
-              <Question key={i}>{text}</Question>
+              <Question
+                key={i}
+                dangerouslySetInnerHTML={{ __html: text }}
+              ></Question>
             ))}
           </div>
           {!this.state.showQuestionOnly && (
@@ -161,7 +170,10 @@ class QuestionBox extends React.Component {
                 }
               >
                 {answerBodyList.map((text, i) => (
-                  <Answer key={i}>{text}</Answer>
+                  <Answer
+                    key={i}
+                    dangerouslySetInnerHTML={{ __html: text }}
+                  ></Answer>
                 ))}
               </div>
 

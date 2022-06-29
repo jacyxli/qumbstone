@@ -2,6 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 
 import IconButton from "@material-ui/core/IconButton";
+import StyledLabel from "./styled-label";
 
 const Root = styled.div`
   display: flex;
@@ -15,18 +16,8 @@ const StyledIconButton = styled(IconButton)`
   width: 3.6rem;
   min-width: unset;
   min-height: unset;
-  margin: 0 !important;
+  margin-left: 0.3rem !important;
   padding: 0 !important;
-`;
-
-const Label = styled.label`
-  display: block;
-  font-size: 1.5rem;
-  font-weight: 200;
-  margin-left: 1rem;
-  @media only screen and (min-width: 1024px) and (max-width: 1280px) {
-    display: none;
-  }
 `;
 
 export default function SidebarButton({
@@ -34,15 +25,16 @@ export default function SidebarButton({
   label,
   onClick,
   children,
+  className,
   ...attr
 }) {
   return (
-    <Root>
+    <Root css={className}>
       <StyledIconButton onClick={onClick} {...attr}>
         {icon}
       </StyledIconButton>
 
-      {typeof label === "string" ? <Label>{label}</Label> : label}
+      {typeof label === "string" ? <StyledLabel>{label}</StyledLabel> : label}
 
       {children}
     </Root>

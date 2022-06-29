@@ -19,9 +19,7 @@ const SearchPanel = styled.div`
   width: 100%;
   position: relative;
 `;
-const SearchPanelFilters = styled.div`
-  display: flex;
-`;
+
 const SearchPanelResults = styled.div`
   display: flex;
   flex-direction: column;
@@ -33,10 +31,6 @@ const IndexPage = (props) => {
   const [showQuestionOnly, setShowQuestionOnly] = React.useState(false);
   const handleToggleShowQuestionOnly = () =>
     setShowQuestionOnly(!showQuestionOnly);
-
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
 
   const searchClient = useMemo(
     () =>
@@ -69,7 +63,7 @@ const IndexPage = (props) => {
             />
           }
         >
-          <Configure hitsPerPage={8} />
+          <Configure hitsPerPage={8} attributesToSnippet={["answer_body"]} />
           <SearchPanel>
             <SearchPanelResults>
               <Hits

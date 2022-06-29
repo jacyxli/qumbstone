@@ -15,13 +15,7 @@ const QuestionTemplate = ({ data }) => {
 
       <ContentContainer
         style={{ marginTop: "4.5rem" }}
-        rightComponent={
-          <Sidebar
-            displaySearch={true}
-            displayHome={true}
-            displayReturn={true}
-          />
-        }
+        rightComponent={<Sidebar displayHome={true} displayReturn={true} />}
       >
         <QuestionBox
           key={data.paddyJoyJson.id}
