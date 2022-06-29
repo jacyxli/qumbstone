@@ -8,21 +8,10 @@ import ContentContainer from "../components/content-container";
 import Hit from "../components/search/hit";
 import Profile from "../components/profile";
 import Sidebar from "../components/sidebar";
-import SortBy from "../components/search/sort-by";
-
-import SearchIcon from "@material-ui/icons/Search";
-import Sort from "@material-ui/icons/Sort";
-import UnfoldLess from "@material-ui/icons/UnfoldLess";
-import UnfoldMore from "@material-ui/icons/UnfoldMore";
-
+import Pagination from "../components/search/pagination";
 import algoliasearch from "algoliasearch/lite";
 
-import {
-  Configure,
-  Hits,
-  InstantSearch,
-  Pagination,
-} from "react-instantsearch-hooks-web";
+import { Configure, Hits, InstantSearch } from "react-instantsearch-hooks-web";
 
 const SearchPanel = styled.div`
   display: flex;

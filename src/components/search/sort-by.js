@@ -3,7 +3,6 @@ import { useSortBy } from "react-instantsearch-hooks-web";
 import styled from "@emotion/styled";
 import Sort from "@material-ui/icons/Sort";
 
-import IconButton from "@material-ui/core/IconButton";
 import Popper from "@material-ui/core/Popper";
 import Fade from "@material-ui/core/Fade";
 
