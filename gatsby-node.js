@@ -32,24 +32,8 @@ exports.createPages = async ({ graphql, actions, reporter }) => {
     return;
   }
 
-  // posts pagination
-  const posts = result.data.allPaddyJoyJson.edges;
-  const postsPerPage = 10;
-  const numPages = Math.ceil(posts.length / postsPerPage);
-  Array.from({ length: numPages }).forEach((_, i) => {
-    createPage({
-      path: `/questions/${i + 1}`,
-      component: path.resolve("./src/templates/question-list-template.js"),
-      context: {
-        limit: postsPerPage,
-        skip: i * postsPerPage,
-        numPages,
-        currentPage: i + 1,
-      },
-    });
-  });
-
   // singular post
+  const posts = result.data.allPaddyJoyJson.edges;
   posts.forEach((post, i) => {
     createPage({
       path: `/question/${post.node.uuid_hash}`,

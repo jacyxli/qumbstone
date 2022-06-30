@@ -3,12 +3,20 @@ import styled from "@emotion/styled";
 import { StaticImage } from "gatsby-plugin-image";
 
 const ProfileRoot = styled.div`
-  margin: 3rem 0;
+  margin: 4.5rem 0 3rem 0;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
   width: 100%;
+
+  @media only screen and (min-width: 481px) and (max-width: 1024px) {
+    margin: 4.5rem 0 1rem 0;
+  }
+
+  @media only screen and (max-width: 480px) {
+    margin: 3rem 0 0.5rem 0;
+  }
 `;
 
 const ProfileImageContainer = styled.div`
@@ -31,6 +39,7 @@ const ProfileText = styled.div`
   width: 100%;
   margin-top: 1rem;
 `;
+
 export default function Profile(props) {
   return (
     <ProfileRoot>

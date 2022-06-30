@@ -1,4 +1,4 @@
-import { default as React, useMemo } from "react";
+import React from "react";
 import styled from "@emotion/styled";
 import { css } from "@emotion/react";
 
@@ -8,10 +8,11 @@ import ContentContainer from "../components/content-container";
 import Hit from "../components/search/hit";
 import Profile from "../components/profile";
 import Sidebar from "../components/sidebar";
-import Pagination from "../components/search/pagination";
-import algoliasearch from "algoliasearch/lite";
+import SidebarMobile from "../components/sidebar-mobile";
 
-import { Configure, Hits, InstantSearch } from "react-instantsearch-hooks-web";
+import Pagination from "../components/search/pagination";
+
+import { Configure, Hits } from "react-instantsearch-hooks-web";
 
 const SearchPanel = styled.div`
   display: flex;
@@ -32,57 +33,53 @@ const IndexPage = (props) => {
   const handleToggleShowQuestionOnly = () =>
     setShowQuestionOnly(!showQuestionOnly);
 
-  const searchClient = useMemo(
-    () =>
-      algoliasearch(
-        process.env.GATSBY_ALGOLIA_APP_ID,
-        process.env.GATSBY_ALGOLIA_SEARCH_KEY
-      ),
-    []
-  );
-
   return (
     <Layout>
-      <Seo title="Index Page" />
+      <Seo title="HOME" />
 
       <ContentContainer>
         <Profile />
       </ContentContainer>
-      <InstantSearch
-        searchClient={searchClient}
-        indexName={process.env.GATSBY_ALGOLIA_INDEX_NAME}
+      <ContentContainer
+        rightComponent={
+          <Sidebar
+            displaySearch={true}
+            displaySort={true}
+            displayFold={true}
+            showQuestionOnly={showQuestionOnly}
+            handleToggleShowQuestionOnly={handleToggleShowQuestionOnly}
+          />
+        }
       >
-        <ContentContainer
-          rightComponent={
-            <Sidebar
-              displaySearch={true}
-              displaySort={true}
-              displayFold={true}
-              showQuestionOnly={showQuestionOnly}
-              handleToggleShowQuestionOnly={handleToggleShowQuestionOnly}
+        <Configure
+          hitsPerPage={8}
+          attributesToSnippet={["answer_body", "body"]}
+        />
+        <SearchPanel>
+          <SidebarMobile
+            displaySearch={true}
+            displaySort={true}
+            displayFold={true}
+            showQuestionOnly={showQuestionOnly}
+            handleToggleShowQuestionOnly={handleToggleShowQuestionOnly}
+          />
+          <SearchPanelResults>
+            <Hits
+              hitComponent={({ hit }) => (
+                <Hit hit={hit} showQuestionOnly={showQuestionOnly} />
+              )}
             />
-          }
-        >
-          <Configure hitsPerPage={8} attributesToSnippet={["answer_body"]} />
-          <SearchPanel>
-            <SearchPanelResults>
-              <Hits
-                hitComponent={({ hit }) => (
-                  <Hit hit={hit} showQuestionOnly={showQuestionOnly} />
-                )}
-              />
-              <div
-                css={css`
-                  margin: 2rem auto;
-                  text-align: center;
-                `}
-              >
-                <Pagination />
-              </div>
-            </SearchPanelResults>
-          </SearchPanel>
-        </ContentContainer>
-      </InstantSearch>
+            <div
+              css={css`
+                margin: 2rem auto;
+                text-align: center;
+              `}
+            >
+              <Pagination />
+            </div>
+          </SearchPanelResults>
+        </SearchPanel>
+      </ContentContainer>
     </Layout>
   );
 };

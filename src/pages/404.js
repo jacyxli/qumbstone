@@ -1,52 +1,76 @@
-import * as React from "react";
+import React from "react";
+import styled from "@emotion/styled";
+import { StaticImage } from "gatsby-plugin-image";
 import { Link } from "gatsby";
 
-// styles
-const pageStyles = {
-  color: "#232129",
-  padding: "96px",
-  fontFamily: "-apple-system, Roboto, sans-serif, serif",
-};
-const headingStyles = {
-  marginTop: 0,
-  marginBottom: 64,
-  maxWidth: 320,
-};
+import "@fontsource/noto-sans-jp";
 
-const paragraphStyles = {
-  marginBottom: 48,
-};
-const codeStyles = {
-  color: "#8A6534",
-  padding: 4,
-  backgroundColor: "#FFF4DB",
-  fontSize: "1.25rem",
-  borderRadius: 4,
-};
+import ContentContainer from "../components/content-container";
+import Navbar from "../components/navbar";
 
+const HeaderRoot = styled.div`
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+
+  & h1 {
+    font-size: 7.2rem;
+    line-height: 120%;
+  }
+
+  @media only screen and (max-width: 480px) {
+    & h1 {
+      font-size: 6.6rem;
+      line-height: 120%;
+    }
+
+    & h3 {
+      font-size: 2rem;
+    }
+  }
+`;
+const ImageContainer = styled.div`
+  max-width: 60%;
+`;
+
+const TopButton = styled(Link)`
+  margin-top: 3rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid #272727;
+  border-radius: 4px;
+  padding: 0.8rem 1.4rem;
+  background: white;
+
+  &:hover {
+    background: #f1f1f1;
+  }
+`;
 // markup
 const NotFoundPage = () => {
   return (
-    <main style={pageStyles}>
-      <title>Not found</title>
-      <h1 style={headingStyles}>Page not found</h1>
-      <p style={paragraphStyles}>
-        Sorry{" "}
-        <span role="img" aria-label="Pensive emoji">
-          😔
-        </span>{" "}
-        we couldn’t find what you were looking for.
-        <br />
-        {process.env.NODE_ENV === "development" ? (
-          <>
-            <br />
-            Try creating a page in <code style={codeStyles}>src/pages/</code>.
-            <br />
-          </>
-        ) : null}
-        <br />
-        <Link to="/">Go home</Link>.
-      </p>
+    <main>
+      <Navbar></Navbar>
+      <ContentContainer>
+        <HeaderRoot>
+          <ImageContainer>
+            <StaticImage
+              src="../images/illustration.png"
+              alt="Qumbstone Illustration"
+              placeholder="blurred"
+              layout="Constrained"
+              width={300}
+            />
+          </ImageContainer>
+          <h1>404</h1>
+          <h3>ページが見つかりませんでした</h3>
+          <TopButton to="/">ホームへ</TopButton>
+        </HeaderRoot>
+      </ContentContainer>
     </main>
   );
 };

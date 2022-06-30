@@ -6,7 +6,7 @@ module.exports = {
     siteUrl: `https://www.yourdomain.tld`,
   },
   siteMetadata: {
-    title: `Qumbstone`,
+    title: `質問墓`,
     author: {
       name: `Jacy Li`,
     },

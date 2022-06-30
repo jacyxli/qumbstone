@@ -17,7 +17,10 @@ const QuestionRoot = styled.div`
   border-radius: 5px;
   width: 100%;
   box-sizing: border-box;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
+  @media only screen and (max-width: 480px) {
+    margin-bottom: 1rem;
+  }
 `;
 
 const QuestionHeader = styled.div`
@@ -39,15 +42,42 @@ const QuestionBody = styled.div`
   box-sizing: border-box;
 `;
 
+const TrucatedQuestion = styled.h4`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines to show */
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  font-weight: bold;
+  margin-top: 1rem;
+  white-space: break-spaces;
+`;
+
 const Question = styled.h4`
   font-weight: bold;
   margin-top: 1rem;
+  white-space: break-spaces;
+`;
+
+const TrucatedAnswer = styled.p`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* number of lines to show */
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  font-weight: normal;
+  font-size: 1.3rem;
+  margin-top: 1rem;
+  white-space: break-spaces;
 `;
 
 const Answer = styled.p`
   font-weight: normal;
   font-size: 1.3rem;
   margin-top: 1rem;
+  white-space: break-spaces;
 `;
 
 const AnswerContainer = styled.div`
@@ -82,14 +112,13 @@ class QuestionBox extends React.Component {
 
   render() {
     const { data, showFullQuestion } = this.props;
-
-    let questionBodyList, answerBodyList;
+    let questionBody, answerBody;
     if (data._highlightResult) {
-      questionBodyList = data._highlightResult.body.value.split(/\r?\n/);
-      answerBodyList = data._highlightResult.answer_body.value.split(/\r?\n/);
+      questionBody = data._highlightResult.body.value;
+      answerBody = data._highlightResult.answer_body.value;
     } else {
-      questionBodyList = data.body.split(/\r?\n/);
-      answerBodyList = data.answer_body.split(/\r?\n/);
+      questionBody = data.body;
+      answerBody = data.answer_body;
     }
 
     return (
@@ -132,50 +161,27 @@ class QuestionBox extends React.Component {
               : undefined
           }
         >
-          <div
-            css={
-              !showFullQuestion
-                ? css`
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    display: -webkit-box;
-                    -webkit-line-clamp: 3; /* number of lines to show */
-                    line-clamp: 3;
-                    -webkit-box-orient: vertical;
-                  `
-                : ``
-            }
-          >
-            {questionBodyList.map((text, i) => (
-              <Question
-                key={i}
-                dangerouslySetInnerHTML={{ __html: text }}
-              ></Question>
-            ))}
-          </div>
+          {showFullQuestion ? (
+            <Question
+              dangerouslySetInnerHTML={{ __html: questionBody }}
+            ></Question>
+          ) : (
+            <TrucatedQuestion
+              dangerouslySetInnerHTML={{ __html: questionBody }}
+            ></TrucatedQuestion>
+          )}
+
           {!this.state.showQuestionOnly && (
             <AnswerContainer>
-              <div
-                css={
-                  !showFullQuestion
-                    ? css`
-                        overflow: hidden;
-                        text-overflow: ellipsis;
-                        display: -webkit-box;
-                        -webkit-line-clamp: 3; /* number of lines to show */
-                        line-clamp: 3;
-                        -webkit-box-orient: vertical;
-                      `
-                    : ``
-                }
-              >
-                {answerBodyList.map((text, i) => (
-                  <Answer
-                    key={i}
-                    dangerouslySetInnerHTML={{ __html: text }}
-                  ></Answer>
-                ))}
-              </div>
+              {showFullQuestion ? (
+                <Answer
+                  dangerouslySetInnerHTML={{ __html: answerBody }}
+                ></Answer>
+              ) : (
+                <TrucatedAnswer
+                  dangerouslySetInnerHTML={{ __html: answerBody }}
+                ></TrucatedAnswer>
+              )}
 
               <TimeStamp>
                 {"Posted at " +

@@ -6,7 +6,7 @@ import Sort from "@material-ui/icons/Sort";
 import Popper from "@material-ui/core/Popper";
 import Fade from "@material-ui/core/Fade";
 
-import useClickOutside from "./use-click-outside";
+import useClickOutside from "../use-click-outside";
 import SidebarButton from "../sidebar-button";
 import StyledLabel from "../styled-label";
 import StyledCurrentRefinement from "../styled-current-refinement";
@@ -66,7 +66,7 @@ export default function SortBy(props) {
   useClickOutside(rootRef, () => setOpen(false));
 
   return (
-    <div ref={rootRef}>
+    <div ref={rootRef} className={props.className}>
       <SidebarButton
         icon={<Sort fontSize="large" style={{ color: "#272727" }} />}
         label={

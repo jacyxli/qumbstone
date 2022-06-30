@@ -50,12 +50,12 @@ const MiddleContainer = styled.div`
 
   @media only screen and (min-width: 481px) and (max-width: 1024px) {
     width: 100%;
-    padding: 0 20px;
+    padding: 0 2rem;
   }
 
   @media only screen and (max-width: 480px) {
     width: 100%;
-    padding: 0 10px;
+    padding: 0 1.5rem;
     max-width: unset;
   }
 `;

@@ -5,6 +5,7 @@ import { css } from "@emotion/react";
 import { Link } from "gatsby";
 import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/icons/Menu";
+import useClickOutside from "./use-click-outside";
 
 const Header = styled.header`
   display: flex;
@@ -40,7 +41,9 @@ const NavToggleMenuContainer = styled.ul`
   overflow: hidden;
   margin: 1%;
   z-index: 1;
-  box-shadow: #eaeaea 0px 4px 15px;
+  box-shadow: #eaeaea 0px 4px 10px;
+  border-color: 1px solid #eaeaea;
+
   & a {
     text-decoration: none !important;
   }
@@ -61,8 +64,12 @@ const NavToggleMenuContainer = styled.ul`
 `;
 
 export default function Navbar(props) {
+  const rootRef = React.createRef();
+
   const [open, setOpen] = React.useState(false);
   const handleToggleMenu = () => setOpen(!open);
+
+  useClickOutside(rootRef, () => setOpen(false));
 
   return (
     <Header>
@@ -101,7 +108,9 @@ export default function Navbar(props) {
             <Link to="/about">質問墓とは</Link>
           </NavMenuItem>
           <NavMenuItem>
-            <Link to="/contact-us">CONTACT US</Link>
+            <a href={`mailto:${process.env.GATSBY_CONTACT_US_EMAIL}`}>
+              CONTACT US
+            </a>
           </NavMenuItem>
           <NavToggle>
             <IconButton onClick={handleToggleMenu}>
@@ -113,19 +122,23 @@ export default function Navbar(props) {
               />
             </IconButton>
             <NavToggleMenuContainer
+              ref={rootRef}
               css={css`
                 border: ${open ? "0px solid #eaeaea" : "0px solid transparent"};
                 max-height: ${open ? "300px" : 0};
                 transition: max-height 1s linear, border 1s linear;
               `}
             >
-              <Link to="/about">
+              <Link to="/about" onClick={() => setOpen(false)}>
                 <li>質問墓とは</li>
               </Link>
 
-              <Link to="/contact-us">
+              <a
+                href={`mailto:${process.env.GATSBY_CONTACT_US_EMAIL}`}
+                onClick={() => setOpen(false)}
+              >
                 <li>CONTACT US</li>
-              </Link>
+              </a>
             </NavToggleMenuContainer>
           </NavToggle>
         </ul>

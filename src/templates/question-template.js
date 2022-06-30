@@ -1,28 +1,40 @@
 import * as React from "react";
+import styled from "@emotion/styled";
+import { graphql } from "gatsby";
 
 import Layout from "../components/layout";
 import QuestionBox from "../components/question-box";
 import Sidebar from "../components/sidebar";
+import SidebarMobile from "../components/sidebar-mobile";
+
 import ContentContainer from "../components/content-container";
 import Seo from "../components/seo";
 
-import { graphql } from "gatsby";
+const Container = styled.div`
+  margin: 4.5rem 0;
+  @media only screen and (max-width: 480px) {
+    @media only screen and (max-width: 1024px) {
+      margin: 2rem 0;
+    }
+  }
+`;
 
 const QuestionTemplate = ({ data }) => {
   return (
     <Layout>
-      <Seo title="Index Page" />
-
-      <ContentContainer
-        style={{ marginTop: "4.5rem" }}
-        rightComponent={<Sidebar displayHome={true} displayReturn={true} />}
-      >
-        <QuestionBox
-          key={data.paddyJoyJson.id}
-          data={data.paddyJoyJson}
-          showFullQuestion={true}
-        />
-      </ContentContainer>
+      <Seo title={data.paddyJoyJson.body} />
+      <Container>
+        <ContentContainer
+          rightComponent={<Sidebar displayHome={true} displayReturn={true} />}
+        >
+          <SidebarMobile displayHome={true} displayReturn={true} />
+          <QuestionBox
+            key={data.paddyJoyJson.id}
+            data={data.paddyJoyJson}
+            showFullQuestion={true}
+          />
+        </ContentContainer>
+      </Container>
     </Layout>
   );
 };

@@ -19,6 +19,14 @@ const PaginatorRoot = styled.div`
   width: 100%;
   color: #272727;
   padding: 0 2rem;
+
+  @media only screen and (min-width: 481px) and (max-width: 1024px) {
+    padding: 0 0.8rem;
+  }
+
+  @media only screen and (max-width: 480px) {
+    padding: 0 0.5rem;
+  }
 `;
 
 const Pages = styled.ul`
@@ -43,10 +51,16 @@ const StyledIconButton = styled(IconButton)`
   margin: 0 1rem !important;
   padding: 0 !important;
 
-  @media only screen and (max-width: 480px) {
+  @media only screen and (min-width: 481px) and (max-width: 1024px) {
     margin: 0 0.5rem !important;
     height: 2rem;
     width: 2rem;
+  }
+
+  @media only screen and (max-width: 480px) {
+    margin: 0 0.3rem !important;
+    height: 1.5rem;
+    width: 1.5rem;
   }
 `;
 
@@ -60,9 +74,16 @@ const PageButton = styled(Button)`
   padding: 0.4rem 1.4rem !important;
   border-radius: 15px !important;
 
-  @media only screen and (max-width: 480px) {
+  @media only screen and (min-width: 481px) and (max-width: 1024px) {
     margin: 0 0.5rem !important;
-    padding: 0.3rem 1rem !important;
+    font-size: 1.2rem !important;
+    padding: 0.3rem 0.5rem !important;
+  }
+
+  @media only screen and (max-width: 480px) {
+    margin: 0 0.3rem !important;
+    font-size: 1.1rem !important;
+    padding: 0.3rem 0.5rem !important;
   }
 `;
 

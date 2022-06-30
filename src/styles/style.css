@@ -78,6 +78,10 @@ body {
   height: 100%;
 }
 
+main {
+  margin-bottom: 10rem;
+}
+
 body,
 ul,
 ol,

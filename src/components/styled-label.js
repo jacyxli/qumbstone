@@ -5,7 +5,7 @@ const StyledLabel = styled.label`
   font-size: 1.5rem;
   font-weight: 200;
   margin-left: 1rem;
-  @media only screen and (min-width: 1024px) and (max-width: 1280px) {
+  @media only screen and (max-width: 1280px) {
     display: none;
   }
 `;

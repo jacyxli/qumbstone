@@ -5,12 +5,12 @@ import Layout from "../components/layout";
 import Seo from "../components/seo";
 import ContentContainer from "../components/content-container";
 import Sidebar from "../components/sidebar";
-import Search from "../components/search";
+import SidebarMobile from "../components/sidebar-mobile";
 
-const AboutRoot = styled.div`
-  margin: 0;
-  @media only screen and (max-width: 1024px) {
-    margin: 0 1.5rem;
+const Container = styled.div`
+  margin: 4.5rem 0;
+  @media only screen and (max-width: 480px) {
+    margin: 2rem 1.5rem;
   }
 `;
 
@@ -22,23 +22,19 @@ const Text = styled.div`
 `;
 
 const AboutPage = (props) => {
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
   return (
     <Layout>
-      <Seo title="Index Page" />
+      <Seo title="質問墓とは？" />
+      <Container>
+        <ContentContainer>
+          <SidebarMobile displayHome={true} displayReturn={true} />
 
-      <Search indexName="paddy_joy" open={open} handleClose={handleClose} />
-      <ContentContainer style={{ marginTop: "4.5rem" }}>
-        <h2>質問墓とは？</h2>
-      </ContentContainer>
+          <h2>質問墓とは？</h2>
+        </ContentContainer>
 
-      <ContentContainer
-        rightComponent={<Sidebar displayReturn={true} displayHome={true} />}
-      >
-        <AboutRoot>
+        <ContentContainer
+          rightComponent={<Sidebar displayReturn={true} displayHome={true} />}
+        >
           <Text>
             <h5>
               このプロジェクトは、Peing社が運営する『質問箱』のモバイルアプリが終了するにあたり、過去の質問と回答をアーカイブしておきたいというアルファ回答者中田さん（
@@ -58,8 +54,8 @@ const AboutPage = (props) => {
               現時点では中田さんの質問のみが載っておりますが、もし他のアルファ回答者さんで似たようなサービスが欲しい方がいらっしゃれば、ぜひご連絡くださいませ。
             </h5>
           </Text>
-        </AboutRoot>
-      </ContentContainer>
+        </ContentContainer>
+      </Container>
     </Layout>
   );
 };

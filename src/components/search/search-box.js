@@ -11,7 +11,7 @@ import Input from "@material-ui/core/OutlinedInput";
 import SearchIcon from "@material-ui/icons/Search";
 import Cancel from "@material-ui/icons/Cancel";
 
-import useClickOutside from "./use-click-outside";
+import useClickOutside from "../use-click-outside";
 import SidebarButton from "../sidebar-button";
 import StyledLabel from "../styled-label";
 import StyledCurrentRefinement from "../styled-current-refinement";
