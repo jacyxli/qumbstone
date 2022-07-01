@@ -108,7 +108,11 @@ export default function Navbar(props) {
             <Link to="/about">質問墓とは</Link>
           </NavMenuItem>
           <NavMenuItem>
-            <a href={`mailto:${process.env.GATSBY_CONTACT_US_EMAIL}`}>
+            <a
+              target="_blank"
+              rel="noreferrer"
+              href={process.env.GATSBY_CONTACT_US_TWITTER}
+            >
               CONTACT US
             </a>
           </NavMenuItem>
@@ -134,8 +138,9 @@ export default function Navbar(props) {
               </Link>
 
               <a
-                href={`mailto:${process.env.GATSBY_CONTACT_US_EMAIL}`}
-                onClick={() => setOpen(false)}
+                target="_blank"
+                rel="noreferrer"
+                href={process.env.GATSBY_CONTACT_US_TWITTER}
               >
                 <li>CONTACT US</li>
               </a>

@@ -49,5 +49,6 @@ module.exports = {
       },
       __key: "data",
     },
+    `gatsby-plugin-sitemap`,
   ],
 };
