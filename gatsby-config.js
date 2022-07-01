@@ -2,16 +2,12 @@ require("dotenv").config();
 
 module.exports = {
   siteMetadata: {
-    title: `qumbstone`,
-    siteUrl: `https://www.yourdomain.tld`,
-  },
-  siteMetadata: {
     title: `質問墓`,
     author: {
       name: `Jacy Li`,
     },
     description: `検索可能な質問箱のアーカイブ`,
-    siteUrl: `https://www.yourdomain.tld`,
+    siteUrl: `https://paddy_joy.qumbstone.com`,
   },
   plugins: [
     "gatsby-plugin-emotion",

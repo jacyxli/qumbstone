@@ -13,9 +13,7 @@ import Seo from "../components/seo";
 const Container = styled.div`
   margin: 4.5rem 0;
   @media only screen and (max-width: 480px) {
-    @media only screen and (max-width: 1024px) {
-      margin: 2rem 0;
-    }
+    margin: 2rem 0;
   }
 `;
 
