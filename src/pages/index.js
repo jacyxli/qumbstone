@@ -5,14 +5,14 @@ import { css } from "@emotion/react";
 import Layout from "../components/layout";
 import Seo from "../components/seo";
 import ContentContainer from "../components/content-container";
-import Hit from "../components/search/hit";
 import Profile from "../components/profile";
 import Sidebar from "../components/sidebar";
 import SidebarMobile from "../components/sidebar-mobile";
+import Hits from "../components/search/hits";
 
 import Pagination from "../components/search/pagination";
 
-import { Configure, Hits } from "react-instantsearch-hooks-web";
+import { Configure } from "react-instantsearch-hooks-web";
 
 const SearchPanel = styled.div`
   display: flex;
@@ -64,11 +64,8 @@ const IndexPage = (props) => {
             handleToggleShowQuestionOnly={handleToggleShowQuestionOnly}
           />
           <SearchPanelResults>
-            <Hits
-              hitComponent={({ hit }) => (
-                <Hit hit={hit} showQuestionOnly={showQuestionOnly} />
-              )}
-            />
+            <Hits showQuestionOnly={showQuestionOnly} />
+
             <div
               css={css`
                 margin: 2rem auto;
