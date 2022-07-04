@@ -9,6 +9,7 @@ module.exports = {
     description: `検索可能な質問箱のアーカイブ`,
     siteUrl: `https://paddy_joy.qumbstone.com`,
   },
+  trailingSlash: "never",
   plugins: [
     "gatsby-plugin-emotion",
     "gatsby-plugin-image",

@@ -11,7 +11,7 @@ const routing = {
   router: history(),
   stateMapping: {
     stateToRoute(uiState) {
-      const indexUiState = uiState["paddy_joy"];
+      const indexUiState = uiState[process.env.GATSBY_ALGOLIA_INDEX_NAME];
 
       return {
         q: indexUiState.query,

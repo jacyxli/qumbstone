@@ -33,7 +33,7 @@ export default function Hits(props) {
   const iconColor = "#272727";
 
   //loading
-  if (nbHits === 0 && (query === "") & (processingTimeMS === 0)) {
+  if (nbHits === 0 && processingTimeMS === 0) {
     return (
       <HitsRoot>
         <HitsItem>
@@ -43,7 +43,7 @@ export default function Hits(props) {
         </HitsItem>
       </HitsRoot>
     );
-  } else if (nbHits === 0 && query !== "") {
+  } else if (nbHits === 0 && query !== "" && processingTimeMS !== 0) {
     return (
       <HitsRoot>
         <HitsItem>
