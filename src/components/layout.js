@@ -5,6 +5,31 @@ import Header from "./header";
 import ContentContainer from "./content-container";
 import algoliasearch from "algoliasearch/lite";
 import { InstantSearch, Configure } from "react-instantsearch-hooks-web";
+import { history } from "instantsearch.js/es/lib/routers";
+
+const routing = {
+  router: history(),
+  stateMapping: {
+    stateToRoute(uiState) {
+      const indexUiState = uiState["paddy_joy"];
+
+      return {
+        q: indexUiState.query,
+        sortBy: indexUiState.sortBy,
+        page: indexUiState.page,
+      };
+    },
+    routeToState(routeState) {
+      return {
+        [process.env.GATSBY_ALGOLIA_INDEX_NAME]: {
+          query: routeState.q,
+          sortBy: routeState.sortBy,
+          page: routeState.page,
+        },
+      };
+    },
+  },
+};
 
 export default function Layout({ children }) {
   const searchClient = React.useMemo(
@@ -21,6 +46,7 @@ export default function Layout({ children }) {
       <InstantSearch
         searchClient={searchClient}
         indexName={process.env.GATSBY_ALGOLIA_INDEX_NAME}
+        routing={routing}
       >
         <Configure
           hitsPerPage={8}

@@ -15,6 +15,8 @@ import useClickOutside from "../use-click-outside";
 import SidebarButton from "../sidebar-button";
 import StyledLabel from "../styled-label";
 import StyledCurrentRefinement from "../styled-current-refinement";
+import { Location } from "@reach/router";
+import { navigate } from "gatsby";
 
 const SearchBoxRoot = styled.div`
   display: flex;
@@ -87,81 +89,104 @@ export default function SearchBox(props) {
     setSearchWord(e.target.value);
   };
 
-  const handleKeyDown = (e) => {
-    if (e.keyCode === 13) {
-      if (searchWord) {
-        refine(searchWord);
-      }
-    }
-  };
-
-  const handleClear = (e) => {
-    setSearchWord("");
-    clear();
-  };
-
   useClickOutside(rootRef, () => setFocus(false));
 
   return (
-    <SearchBoxRoot ref={rootRef}>
-      <Form
-        fullWidth
-        variant="outlined"
-        css={css`
-          width: ${hasFocus ? "100% !important" : "0 !important"};
-          opacity: ${hasFocus ? "1 !important" : "0 !important"};
-        `}
-      >
-        <StyledInput
-          id="search"
-          value={searchWord}
-          onChange={handleChange}
-          onKeyDown={handleKeyDown}
-          placeholder="質問墓を検索"
-          startAdornment={
-            <InputAdornment position="start">
-              <SearchIcon fontSize={iconSize} style={{ color: iconColor }} />
-            </InputAdornment>
-          }
-          endAdornment={
-            searchWord && (
-              <InputAdornment position="end">
-                <IconButton
-                  css={css`
-                    width: unset !important;
-                    height: unset !important;
-                    padding: 0 !important;
-                  `}
-                  onClick={handleClear}
-                >
-                  <Cancel fontSize="medium" style={{ color: "#717171" }} />
-                </IconButton>
-              </InputAdornment>
-            )
-          }
-          fullWidth
-        />
-      </Form>
+    <Location>
+      {(locationProps) => {
+        const { location } = locationProps;
 
-      <SidebarButton
-        css={css`
-          display: flex;
-          align-items: center;
-          justify-content: flex-start;
-          transition: 1s ease-in-out;
-          overflow: hidden !important;
-          width: ${hasFocus ? "0" : "100%"};
-          opacity: ${hasFocus ? 0 : 1};
-        `}
-        icon={<SearchIcon fontSize={iconSize} style={{ color: iconColor }} />}
-        label={
-          <StyledLabel>
-            SEARCH {searchWord ? "- " : ""}
-            <StyledCurrentRefinement>{searchWord}</StyledCurrentRefinement>
-          </StyledLabel>
-        }
-        onClick={() => setFocus(true)}
-      ></SidebarButton>
-    </SearchBoxRoot>
+        const handleKeyDown = (e) => {
+          if (e.keyCode === 13) {
+            if (location.pathname === "/") {
+              navigate(`/search?q=${searchWord}`);
+            } else {
+              refine(searchWord);
+            }
+          }
+        };
+
+        const handleClear = (e) => {
+          setSearchWord("");
+          if (location.pathname !== "/") {
+            navigate("/");
+          }
+          clear();
+        };
+
+        return (
+          <SearchBoxRoot ref={rootRef}>
+            <Form
+              fullWidth
+              variant="outlined"
+              css={css`
+                width: ${hasFocus ? "100% !important" : "0 !important"};
+                opacity: ${hasFocus ? "1 !important" : "0 !important"};
+              `}
+            >
+              <StyledInput
+                id="search"
+                value={searchWord}
+                onChange={handleChange}
+                onKeyDown={handleKeyDown}
+                placeholder="質問墓を検索"
+                startAdornment={
+                  <InputAdornment position="start">
+                    <SearchIcon
+                      fontSize={iconSize}
+                      style={{ color: iconColor }}
+                    />
+                  </InputAdornment>
+                }
+                endAdornment={
+                  searchWord && (
+                    <InputAdornment position="end">
+                      <IconButton
+                        css={css`
+                          width: unset !important;
+                          height: unset !important;
+                          padding: 0 !important;
+                        `}
+                        onClick={handleClear}
+                      >
+                        <Cancel
+                          fontSize="medium"
+                          style={{ color: "#717171" }}
+                        />
+                      </IconButton>
+                    </InputAdornment>
+                  )
+                }
+                fullWidth
+              />
+            </Form>
+
+            <SidebarButton
+              css={css`
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                transition: 1s ease-in-out;
+                overflow: hidden !important;
+                width: ${hasFocus ? "0" : "100%"};
+                opacity: ${hasFocus ? 0 : 1};
+              `}
+              icon={
+                <SearchIcon fontSize={iconSize} style={{ color: iconColor }} />
+              }
+              label={
+                <StyledLabel>
+                  SEARCH {searchWord ? "- " : ""}
+                  <StyledCurrentRefinement>
+                    {searchWord}
+                  </StyledCurrentRefinement>
+                </StyledLabel>
+              }
+              onClick={() => setFocus(true)}
+            ></SidebarButton>
+          </SearchBoxRoot>
+        );
+      }}
+    </Location>
   );
 }
