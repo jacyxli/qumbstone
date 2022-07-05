@@ -99,19 +99,19 @@ export default function SearchBox(props) {
         const handleKeyDown = (e) => {
           if (e.keyCode === 13) {
             if (location.pathname === "/") {
-              navigate(`/search?q=${searchWord}`);
-            } else {
-              refine(searchWord);
+              navigate(`/search?query=${searchWord}`);
             }
+            refine(searchWord);
           }
         };
 
         const handleClear = (e) => {
           setSearchWord("");
+          clear();
+
           if (location.pathname !== "/") {
             navigate("/");
           }
-          clear();
         };
 
         return (

@@ -14,7 +14,7 @@ const routing = {
       const indexUiState = uiState[process.env.GATSBY_ALGOLIA_INDEX_NAME];
 
       return {
-        q: indexUiState.query,
+        query: indexUiState.query,
         sortBy: indexUiState.sortBy,
         page: indexUiState.page,
       };
@@ -22,7 +22,7 @@ const routing = {
     routeToState(routeState) {
       return {
         [process.env.GATSBY_ALGOLIA_INDEX_NAME]: {
-          query: routeState.q,
+          query: routeState.query,
           sortBy: routeState.sortBy,
           page: routeState.page,
         },
