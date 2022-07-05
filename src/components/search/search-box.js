@@ -108,10 +108,11 @@ export default function SearchBox(props) {
 
         const handleClear = (e) => {
           setSearchWord("");
+          clear();
+
           if (location.pathname !== "/") {
             navigate("/");
           }
-          clear();
         };
 
         return (
